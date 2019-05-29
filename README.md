@@ -1,2 +1,2 @@
 # .Net Core Best Practice
-![.Net Core Best Practice](/assets/logo.png?raw=true)
+![.Net Core Best Practice](/assets/logo.png | width=2200)
