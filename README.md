@@ -1,5 +1,7 @@
 ![.Net Core Best Practice](/assets/logo_final.png?raw=true)
 
+[![License: GPL](https://img.shields.io/badge/License-GPL-blue.svg)](https://github.com/user3301/dotnetcore_best_practice/blob/master/LICENSE)
+
 In this repository, you can find some coding and naming conventions in C# (.Net Core 1.x + specifically).
 
 # Table of Contents
@@ -375,5 +377,63 @@ public class User
 ```
 
 **[⬆ back to top](#table-of-contents)**
+
+</details>
+
+
+<details>
+  <summary><b>Use searchable names</b></summary>
+
+One might easily grep for `DAYS_IN_KNUCKLE_MONTH`, but the number 31 could be more troublesome. Searches may turn up the digit as part of file names, other constant definition, and in various expressions where the value is used with different intent.
+
+**Bad:**
+
+```csharp
+int s = 0;
+for(int i =1; i<= 31; ++i)
+{
+  s += (t[i]*4)
+}
+```
+
+**Good:**
+
+```csharp
+int realDaysPerIdealDay = 4;
+public const int WORK_DAYS_PER_WEEK = 5;
+int sum = 0;
+
+for(int i=1; i<= NUMBER_OF_TASKS;++i)
+{
+  int realTaskDays = taskEstimate[i] * realDaysPerIdealDay;
+  int realTaskWeeks = (realdays / WORK_DAYS_PER_WEEK);
+  sum += realTaskWeeks;
+}
+```
+
+**Bad:**
+
+```csharp
+var transcriptionStatus = DocumentDB.GetTranscriptStatus();
+if(transcriptionStatus < 0) return StatusCode(500);
+```
+
+**Good:**
+
+```csharp
+public enum TranscriptionStatusEnum:short
+{
+   error = -1,
+   analyzing = 1,
+   done = 2,
+   received = 3
+}
+
+var transcriptionStatus = DocumentDB.GetTranscriptStatus();
+if(transcriptionStatus == TranscriptionStatusEnum.error) return StatusCode(500);
+```
+
+
+**[⬆ Back to top](#table-of-contents)**
 
 </details>
