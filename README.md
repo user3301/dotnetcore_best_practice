@@ -4,12 +4,15 @@
 
 In this repository, you can find some coding and naming conventions in C# (.Net Core 1.x + specifically).
 
-# Table of Contents
-- [Table of Contents](#table-of-contents)
+# Contents
+- [Contents](#contents)
 - [Introduction](#introduction)
 - [Coding and Naming Conventions](#coding-and-naming-conventions)
   - [Naming](#naming)
   - [Variables](#variables)
+  - [Functions](#functions)
+  - [Classes](#classes)
+  - [Unit Testing](#unit-testing)
 
 # Introduction
 
@@ -24,7 +27,7 @@ Inspired by [clean-code-javascript](https://github.com/ryanmcdermott/clean-code-
 ## Naming
 
 <details>
-  <summary><b>User intention-revealing names</b></summary>
+  <summary><b>Use intention-revealing names</b></summary>
 A good name does not only improve the readability of the code but also enhance working efficiency as it helps other team members to understand your code.
 
 **Bad:**
@@ -148,8 +151,8 @@ Human are good at memorizing pronounceable words. So make variable names pronoun
 ```csharp
 public class DtaRcrd102
 {
-    public Datetime genymdhms { get; set; } // what the programmer want to tell is generation timestamp in yy-mm-dd-hh-mm-ss
-    public Datetime modymdhms { get; set; } // modeification timestamp
+    public Datetime genymdhms { get; set; } // what the programmer want to tell is generation timestamp in yy-mm-dd-hh-mm-ss format
+    public Datetime modymdhms { get; set; } // modeification timestamp in yy-mm-dd-hh-mm-ss format
 }
 ```
 
@@ -413,6 +416,7 @@ for(int i=1; i<= NUMBER_OF_TASKS;++i)
 
 **Bad:**
 
+It's hard to navigate to the location where `transcriptionStatus` is `error` and see what happens unless 0 is mentally "mapped" to `error`.
 ```csharp
 var transcriptionStatus = DocumentDB.GetTranscriptStatus();
 if(transcriptionStatus < 0) return StatusCode(500);
@@ -437,3 +441,132 @@ if(transcriptionStatus == TranscriptionStatusEnum.error) return StatusCode(500);
 **[⬆ Back to top](#table-of-contents)**
 
 </details>
+
+
+## Functions
+
+<details>
+  <summary><b>Keep indentation consistent</b></summary>
+Keep your indentation style consistent is a good way to improve your code readability and keep it nice and concise.
+
+**Style 1:**
+
+```csharp
+void Foo() {
+  if(condition) {
+    //do something
+  } else {
+    //do something
+  }
+}
+```
+
+**Style 2:**
+
+```csharp
+void Foo()
+{
+  if(condition)
+  {
+    //do something
+  }
+  else
+  {
+    //do something
+  }
+}
+```
+
+**Style 3:**
+
+```csharp
+void Foo()
+{ if(condition)
+  { //do something
+  }
+  else
+  { //do something
+  }
+}
+```
+
+Indentation of choice is only a matter of preference unless your language of choice has a strict rule of indentation(Golang enforce curly bracket to not be on the next line). Based on my personal experience `Style 2` is preferred by .Net and .Net Core developer whereas `Style 1` is more for Java guys.
+
+**[⬆ Back to top](#table-of-contents)**
+
+</details>
+
+
+<details>
+  <summary><b>Use local functions wisely</b></summary>
+C# supports `local functions` since C# 7.0. Local functions are private methods of a type that are nested in another member. They can only be called from their containing member. Local functions can be declared in and called from:
+
+  1. Methods, especially iterator methods and async methods;
+   
+  2. Constructors;
+   
+  3. Property accessors;
+   
+  4. Event accessors;
+   
+  5. Anonymous expressions;
+    
+  6.  Finalizers;
+    
+  7.  Other local functions; 
+
+**Bad:**
+
+```csharp
+public static partial class Utility
+{
+  #region  private method
+  private static string GetText(string path, string filename)
+  {
+    var sr = File.OpenText(AppendPathSeparator(path) + filename);
+         var text = sr.ReadToEnd();
+         return text;
+  }
+
+// this method is only called inside GetText method
+  private static string AppendPathSeparator(string filepath)
+  {
+    if (! filepath.EndsWith(@"\"))
+               filepath += @"\";
+
+            return filepath;   
+  }
+  #endregion
+}
+```
+
+As method `GetText` is a private method in the `Utility` class, The `AppendPathSeparator` method is only used inside of `GetText` method. We could move `AppendPathSeparator` method declaration into `GetText` method to avoid contaminate the global environment.
+
+**Good:**
+
+```csharp
+ private static string GetText(string path, string filename)
+    {
+         var sr = File.OpenText(AppendPathSeparator(path) + filename);
+         var text = sr.ReadToEnd();
+         return text;
+         
+         // Declare a local function.
+         string AppendPathSeparator(string filepath)
+         {
+            if (! filepath.EndsWith(@"\"))
+               filepath += @"\";
+
+            return filepath;   
+         }
+    } 
+```
+
+**[⬆ Back to top](#table-of-contents)**
+
+</details>
+
+
+## Classes
+
+## Unit Testing
