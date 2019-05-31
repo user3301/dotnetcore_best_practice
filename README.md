@@ -498,7 +498,7 @@ Indentation of choice is only a matter of preference unless your language of cho
 
 
 <details>
-  <summary><b>Use local functions wisely</b></summary>
+  <summary><b>Use local functions when necessary</b></summary>
 C# supports `local functions` since C# 7.0. Local functions are private methods of a type that are nested in another member. They can only be called from their containing member. Local functions can be declared in and called from:
 
   1. Methods, especially iterator methods and async methods;
@@ -566,6 +566,87 @@ As method `GetText` is a private method in the `Utility` class, The `AppendPathS
 
 </details>
 
+
+<details>
+  <summary><b>Replace conditional with polymorphism when possible</b></summary>
+ 
+
+**Bad:**
+
+```csharp
+class Car 
+{
+  public MakeEnum Make {get; set;}
+  //...
+  double GetSpeed()
+  {
+    switch(Make)
+    {
+      case MakeEnum.European:
+        return GetBaseSpeed();
+      case MakeEnum.Asian:
+        return GetBaseSpeed() + GetCylinders() * MAXSPEEDPERCYLINDER;
+      case MakeEnum.American:
+        return (Is4WD)? 100: GetBaseSpeed();
+    }
+    throw new NotImplementedException();
+  }
+}
+```
+
+
+
+**Good:**
+```csharp
+abstract class Car
+{
+  abstract double GetSpeed();
+}
+
+class European: Car
+{
+  public double GetBaseSpeed() => 100d;
+
+  override double GetSpeed()
+  {
+    return GetBaseSpeed();
+  }
+}
+
+class Asian:Car
+{
+  public int Cylinders {get; set;}
+
+  public double GetBaseSpeed()=> 110d;
+
+  public const double MAXSPEEDPERCYLINDER = 20;
+
+  override double GetSpeed()
+  {
+    return GetBaseSpeed() + Cylinders * MAXSPEEDPERCYLINDER;
+  }
+}
+
+class American:Car
+{
+  public double GetBaseSpeed() => 90d;
+
+  override double GetSpeed()
+  {
+    return Is4WD? 100: GetBaseSpeed();
+  }
+}
+
+
+//somewhere in client side's code
+
+var speed = car.GetSpeed();
+
+```
+
+**[⬆ Back to top](#table-of-contents)**
+
+</details>
 
 ## Classes
 
