@@ -499,7 +499,7 @@ Indentation of choice is only a matter of preference unless your language of cho
 
 <details>
   <summary><b>Use local functions when necessary</b></summary>
-C# supports `local functions` since C# 7.0. Local functions are private methods of a type that are nested in another member. They can only be called from their containing member. Local functions can be declared in and called from:
+C# supports local functions since C# 7.0. Local functions are private methods of a type that are nested in another member. They can only be called from their containing member. Local functions can be declared in and called from:
 
   1. Methods, especially iterator methods and async methods;
    
