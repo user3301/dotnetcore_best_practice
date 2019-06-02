@@ -648,6 +648,38 @@ var speed = car.GetSpeed();
 
 </details>
 
+
+<details>
+  <summary><b>Use named argument when method argument list is long</b></summary>
+
+
+**Bad:**
+
+```csharp
+PrintEmailDetails("Kanye West", "Jay-Z", "Dr.Dre")
+
+static void PrintEmailDetails(string sender, string recipient, string cc)
+{
+  Console.WriteLine($"Sender:{sender}, Recipient: {recipient}, CC: {cc}");
+}
+```
+
+**Good:**
+
+```csharp
+PrintEmailDetails(sender:"Kanye West", recipient:"Jay-Z", cc:"Dr.Dre")
+
+static void PrintEmailDetails(string sender, string recipient, string cc)
+{
+  Console.WriteLine($"Sender:{sender}, Recipient: {recipient}, CC: {cc}");
+}
+```
+Named arguments free you from the need to remember or to look up the order of parameter in the parameter lists of called methods.
+
+**[⬆ Back to top](#table-of-contents)**
+
+</details>
+
 ## Classes
 
 ## Unit Testing
