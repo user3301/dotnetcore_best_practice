@@ -246,6 +246,81 @@ class GumballMachine
 
 </details>
 
+
+<details>
+  <summary><b>Final words</b></summary>
+Here are some `Do` s and `Don't` s that may help you name variable better:
+
+1. `Do` use PascalCasing for class names and method names;
+Example:
+
+```csharp
+public class Foo
+{
+    public void GetFooDetails()
+    {
+      //...
+    }
+}
+```
+
+2. `Do` use camelCasing for method arguments and local variables;
+Example:
+```csharp
+public class FooBar
+{
+  public void Save(FooBar fooBar)
+   {
+       // ...
+   }
+} 
+```
+
+3. `Don't` use Abbreviations;
+Example:
+```csharp
+// Correct
+DocumentProfile documentProfile;
+ 
+// Avoid
+DocumentProfile docProf;
+
+```
+
+4. `Don't` use Underscores in identifiers;
+Example:
+```csharp
+// Correct
+FooBar fooBar;
+ 
+// Avoid
+FooBar foo_Bar; 
+```
+
+5. `Do` prefix interfaces with letter `I`;
+Example:
+```csharp
+//Correct
+public interface IFooBar{}
+
+//Avoid
+public interface FooBar{};
+```
+
+6. `Do` declare all member variables at the top of a class, with static variables at very top;
+```csharp
+public class Contact
+{
+  public static string Name;
+
+  public string Address{set;get;}
+}
+```
+
+**[⬆ Back to top](#table-of-contents)**
+
+</details>
+
 ## Variables
 
 <details>
@@ -679,6 +754,64 @@ Named arguments free you from the need to remember or to look up the order of pa
 **[⬆ Back to top](#table-of-contents)**
 
 </details>
+
+
+<details>
+  <summary><b>Use default arguments to reduce conditionals in code block </b></summary>
+The definition of a method, constructor, indexer, or delegate can specify that its parameters are required or that they are optional. Any call must provide arguments for all required parameters, but can omit arguments for optional parameters.
+
+Each optional parameter has a default value as part of its definition. If no argument is sent for that parameter, the default value is used. 
+
+**Bad:**
+
+```csharp
+public class Contact
+{
+  public string Name{get;set;}
+  public string Address{get; set;}
+  public string Email{get;set;}
+  
+  public Contact(string name, string address, string email)
+  {
+    if(string.IsNullOrWhiteSpace(name)) throw new ArgumentException(message: "Name cannot be null or empty.", paramName: nameof(name));
+    else Name = name;
+
+    if(string.IsNullOrWhiteSpace(address)) throw new ArgumentException(message: "Address cannot be null or empty.", paramName: nameof(address));
+    else Address = address;
+
+    email = string.IsNullOrEmpty(email)? "Not Available": email; 
+  }
+}
+
+
+```
+
+**Good:**
+
+```csharp
+public class Contact
+{
+  public string Name{get;set;}
+  public string Address{get; set;}
+  public string Email{get;set;}
+  
+  public Contact(string name, string address, string optionalEmail = "Not Available")
+  {
+    if(string.IsNullOrWhiteSpace(name)) throw new ArgumentException(message: "Name cannot be null or empty.", paramName: nameof(name));
+    else Name = name;
+
+    if(string.IsNullOrWhiteSpace(address)) throw new ArgumentException(message: "Address cannot be null or empty.", paramName: nameof(address));
+    else Address = address;
+
+    email = optionalEmail;
+  }
+}
+```
+
+**[⬆ Back to top](#table-of-contents)**
+
+</details>
+
 
 ## Classes
 
