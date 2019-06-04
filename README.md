@@ -4,8 +4,8 @@
 
 In this repository, you can find some coding and naming conventions in C# (.Net Core 1.x + specifically).
 
-# Contents
-- [Contents](#contents)
+# Table of Contents
+- [Table of Contents](#table-of-contents)
 - [Introduction](#introduction)
 - [Coding and Naming Conventions](#coding-and-naming-conventions)
   - [Naming](#naming)
