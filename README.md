@@ -520,6 +520,42 @@ if(transcriptionStatus == TranscriptionStatusEnum.error) return StatusCode(500);
 
 ## Functions
 
+
+<details>
+  <summary><b>Keep function arguments as fewer as possible</b></summary>
+The ideal number of arguments for a function is zero. Next comes one, followed closely by two. Three arguments should be avoided where possible.
+
+**Bad:**
+
+```csharp
+DataBase.InitializeConnection(string endpointURL, string authorizationKey, string databaseGuid, string collectionName)
+{
+  // establish database connection
+}
+```
+
+**Good:**
+
+```csharp
+var dbConfig = new DatabaseConfiguration
+{
+  EndpointURL = "http:://azure.com:443",
+  authorizationKey = "sdasdasd24nsodfj1o234sadn",
+  DatabaseGuid = "213d-3dfsdf-12asdd-123a",
+  CollectionName = "UserDocument"
+}
+
+DataBase.InitialieConnection(DatabaseConfiguration dbConfig)
+{
+  // establish database connection
+}
+```
+
+**[⬆ Back to top](#table-of-contents)**
+
+</details>
+
+
 <details>
   <summary><b>Keep indentation consistent</b></summary>
 Keep your indentation style consistent is a good way to improve your code readability and keep it nice and concise.
