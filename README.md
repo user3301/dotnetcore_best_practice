@@ -609,6 +609,49 @@ Indentation of choice is only a matter of preference unless your language of cho
 
 
 <details>
+  <summary><b>Function should do one thing</b></summary>
+
+
+**Bad:**
+
+
+```csharp
+public void SendEmailToClients(int[] groupsOfClientIds)
+{
+  foreach(var clientId in groupsOfClientIds)
+  {
+      var record = DocumentEngine.FindRecordById(clientId)
+      if(record.Status == RecordStatusEnum.Active) SendEmail(record.Email);      
+  }
+}
+```
+
+**Good:**
+
+```csharp
+public void SendEmailToClients(int[] groupsOfClientIds)
+{
+  foreach(var clientId in groupsOfClientIds)
+  {
+      var record = DatabaseClient.FindRecordById(clientId)
+      var emails = GetActiveClientIds(groupsOfClientIds);
+      foreach(var email in emails) SendEmail(email);     
+  }
+}
+
+private string[] GetActiveClientIds(int[] groupsOfClientIds)
+{
+   return DocumentEngine.FindAllRecords(groupsOfClientIds).Where(s=>s.Status == RecordStatusEnum.Active).Select(x=>x.Email);
+} 
+
+```
+
+**[⬆ Back to top](#table-of-contents)**
+
+</details>
+
+
+<details>
   <summary><b>Use local functions when necessary</b></summary>
 C# supports local functions since C# 7.0. Local functions are private methods of a type that are nested in another member. They can only be called from their containing member. Local functions can be declared in and called from:
 
