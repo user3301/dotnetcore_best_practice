@@ -72,6 +72,12 @@ int[] randomNumberList;
 int[] randomNumbers;
 ```
 
+**Real-life example:**
+```java
+//from Netty, use `group` as the naming convention for a collection of objects, it avoid causing misleading and also hide the implementation of actual data structure
+NioEventLoopGroup workerGroup = new NioEventLoopGroup();
+```
+
 **[⬆ Back to top](#table-of-contents)**
 
 </details>
