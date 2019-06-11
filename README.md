@@ -13,6 +13,7 @@ In this repository, you can find some coding and naming conventions in C# (.Net 
   - [Functions](#functions)
   - [Classes](#classes)
   - [Unit Testing](#unit-testing)
+  - [Tools](#tools)
 
 # Introduction
 
@@ -901,3 +902,68 @@ public class Contact
 ## Classes
 
 ## Unit Testing
+
+## Tools
+
+
+<details>
+  <summary><b>Source control</b></summary>
+
+Source control is an absolute necessity for any software development project. If you are not using one yet, start using one.
+
+ * [GitHub](https://github.com/) - allows for unlimited public repositories, and unlimited private repositories with up to 3 collaborators.
+ * [Bitbucket](https://bitbucket.org/) - allows for unlimited private repositories with up to 5 collaborators, for free.
+ * [SourceForge](http://sourceforge.net/) - open source hosting only.
+ * [GitLab](https://gitlab.com/) - allows for unlimited public and private repositories, unlimited CI Runners included, for free.
+ * [Visual Studio Online](https://visualstudio.com) (http://www.visualstudio.com/what-is-visual-studio-online-vs) - allows for unlimited public repositories, must pay for private repository. Repositories can be git or TFVC. Additionally: Issue tracking, project planning (multiple Agile templates, such as SCRUM), integrated hosted builds, integration of all this into Microsoft Visual Studio. Windows only.
+ * [Gitee](https://gitee.com) - allows for unlimited private repositiories up to 5G file storage
+
+**[⬆ Back to top](#table-of-contents)**
+
+</details>
+
+<details>
+  <summary><b>Continuous integration</b></summary>
+
+Once you have picked your build tool, set up a continuous integration environment.
+
+Continuous Integration (CI) tools automatically build the source code as changes are pushed to the repository. These can be hosted privately or with a CI host.
+
+ * [Travis CI](http://travis-ci.org)
+   * works well with C#
+   * designed for use with GitHub
+   * free for public repositories on GitHub
+ * [AppVeyor](http://www.appveyor.com/)
+   * supports Windows, MSVC and MinGW
+   * free for public repositories on GitHub
+ * [Hudson CI](http://hudson-ci.org/) / [Jenkins CI](https://jenkins-ci.org/)
+   * Java Application Server is required
+   * supports Windows, OS X, and Linux
+   * extendable with a lot of plugins
+ * [TeamCity](https://www.jetbrains.com/teamcity) 
+   * has a free option for open source projects
+ * [Decent CI](https://github.com/lefticus/decent_ci)
+   * simple ad-hoc continuous integration that posts results to GitHub
+   * supports Windows, OS X, and Linux
+   * used by [ChaiScript](http://chaiscript.com/ChaiScript-BuildResults/full_dashboard.html)
+ * [Visual Studio Online](https://visualstudio.com) (http://www.visualstudio.com/what-is-visual-studio-online-vs)
+   * Tightly integrated with the source repositories from Visual Studio Online
+   * Uses MSBuild (Visual Studio's build engine), which is available on Windows, OS X and Linux
+   * Provides hosted build agents and also allows for user-provided build agents
+   * Can be controlled and monitored from within Microsoft Visual Studio
+   * On-Premise installation via Microsoft Team Foundation Server
+ * [GitLab](https://gitlab.com)
+   * has free shared runners
+   * has trivial processing of result of coverage analyze
+
+If you have an open source, publicly-hosted project on GitHub:
+
+ * go enable Travis Ci and AppVeyor integration right now. We'll wait for you to come back. For a simple example of how to enable it for your C# application, see here: https://docs.travis-ci.com/user/languages/csharp/
+ * enable one of the coverage tools listed below (Codecov or Coveralls)
+ * enable [Coverity Scan](https://scan.coverity.com)
+  
+These tools are all free and relatively easy to set up. Once they are set up you are getting continuous building, testing, analysis and reporting of your project. For free.
+
+**[⬆ Back to top](#table-of-contents)**
+
+</details>
