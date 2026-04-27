@@ -2,7 +2,7 @@
 
 [![License: GPL](https://img.shields.io/badge/License-GPL-blue.svg)](https://github.com/user3301/dotnetcore_best_practice/blob/master/LICENSE)
 
-In this repository, you can find some coding and naming conventions in C# (.Net Core 1.x + specifically).
+In this repository, you can find some coding and naming conventions in C# (.NET 8+ specifically).
 
 # Table of Contents
 - [Table of Contents](#Table-of-Contents)
@@ -123,7 +123,7 @@ void printname();
 **Good:**
 
 ```csharp
-const int THRESHOLD = 100;
+const int Threshold = 100;
 public string UserName;
 private string _name;
 void PrintName();
@@ -158,8 +158,8 @@ Human are good at memorizing pronounceable words. So make variable names pronoun
 ```csharp
 public class DtaRcrd102
 {
-    public Datetime genymdhms { get; set; } // what the programmer want to tell is generation timestamp in yy-mm-dd-hh-mm-ss format
-    public Datetime modymdhms { get; set; } // modeification timestamp in yy-mm-dd-hh-mm-ss format
+    public DateTime genymdhms { get; set; } // what the programmer want to tell is generation timestamp in yy-mm-dd-hh-mm-ss format
+    public DateTime modymdhms { get; set; } // modeification timestamp in yy-mm-dd-hh-mm-ss format
 }
 ```
 
@@ -168,8 +168,8 @@ public class DtaRcrd102
 ```csharp
 public class Customer
 {
-    public Datetime GenerationTimestamp { get; set; }
-    public Datetime ModificationTimestamp { get; set; }
+    public DateTime GenerationTimestamp { get; set; }
+    public DateTime ModificationTimestamp { get; set; }
 }
 ```
 
@@ -401,7 +401,7 @@ A magic number or string is basically a hard-coded value that might change at a 
 public class Foo {
     public void SetPassword(string password) {
          // 7 is the magic number
-         if (password.Length() > 7) {
+         if (password.Length > 7) {
               throw new InvalidArgumentException("password");
          }
     }
@@ -412,10 +412,10 @@ public class Foo {
 
 ```csharp
 public class Foo {
-    public const int MAX_PASSWORD_SIZE = 7;
+    public const int MaxPasswordSize = 7;
 
     public void SetPassword(string password) {
-         if (password.Length() > MAX_PASSWORD_SIZE) {
+         if (password.Length > MaxPasswordSize) {
               throw new InvalidArgumentException("password");
          }
     }
@@ -485,13 +485,13 @@ for(int i =1; i<= 31; ++i)
 
 ```csharp
 int realDaysPerIdealDay = 4;
-public const int WORK_DAYS_PER_WEEK = 5;
+public const int WorkDaysPerWeek = 5;
 int sum = 0;
 
-for(int i=1; i<= NUMBER_OF_TASKS;++i)
+for(int i=1; i<= NumberOfTasks;++i)
 {
   int realTaskDays = taskEstimate[i] * realDaysPerIdealDay;
-  int realTaskWeeks = (realdays / WORK_DAYS_PER_WEEK);
+  int realTaskWeeks = (realdays / WorkDaysPerWeek);
   sum += realTaskWeeks;
 }
 ```
@@ -507,16 +507,16 @@ if(transcriptionStatus < 0) return StatusCode(500);
 **Good:**
 
 ```csharp
-public enum TranscriptionStatusEnum:short
+public enum TranscriptionStatus : short
 {
-   error = -1,
-   analyzing = 1,
-   done = 2,
-   received = 3
+   Error = -1,
+   Analyzing = 1,
+   Done = 2,
+   Received = 3
 }
 
 var transcriptionStatus = DocumentDB.GetTranscriptStatus();
-if(transcriptionStatus == TranscriptionStatusEnum.error) return StatusCode(500);
+if(transcriptionStatus == TranscriptionStatus.Error) return StatusCode(500);
 ```
 
 
@@ -547,12 +547,12 @@ DataBase.InitializeConnection(string endpointURL, string authorizationKey, strin
 var dbConfig = new DatabaseConfiguration
 {
   EndpointURL = "http:://azure.com:443",
-  authorizationKey = "sdasdasd24nsodfj1o234sadn",
+  AuthorizationKey = "sdasdasd24nsodfj1o234sadn",
   DatabaseGuid = "213d-3dfsdf-12asdd-123a",
   CollectionName = "UserDocument"
 }
 
-DataBase.InitialieConnection(DatabaseConfiguration dbConfig)
+DataBase.InitializeConnection(DatabaseConfiguration dbConfig)
 {
   // establish database connection
 }
@@ -906,7 +906,7 @@ public class Contact
 | Name              | Description                                       | Exceptions                      |
 | ----------------- | ------------------------------------------------- | ------------------------------- |
 | Avoid async void  | Prefer async Task methods over async void methods | Event handlers                  |
-| Async all the way | Don't mix blocking and async code                 | Console main method (C# <= 7.0) |
+| Async all the way | Don't mix blocking and async code                 | None (async Main supported since C# 7.1) |
 | Configure context | Use `ConfigureAwait(false)` when you can          | Methods that require con­text   |
 
 **The Async Way of Doing Things**
@@ -922,7 +922,7 @@ public class Contact
 
 The async/await is the best for IO bound tasks (networking communication, database communication, http request, etc.) but it is not good to apply on computational bound tasks (traverse on the huge list, render a hugge image, etc.). Because it will release the holding thread to the thread pool and CPU/cores available will not involve to process those tasks. Therefore, we should avoid using Async/Await for computional bound tasks.
 
-For dealing with computational bound tasks, prefer to use `Task.Factory.CreateNew` with `TaskCreationOptions` is `LongRunning`. It will start a new background thread to process a heavy computational bound task without release it back to the thread pool until the task being completed.
+For dealing with computational bound tasks, prefer to use `Task.Factory.StartNew` with `TaskCreationOptions.LongRunning`. It will start a new background thread to process a heavy computational bound task without releasing it back to the thread pool until the task is completed. For simpler cases, `Task.Run` is the modern preferred approach.
 
 **Know Your Tools**
 
@@ -974,11 +974,11 @@ There are many new await-friendly techniques that should be used instead of the 
 
 Source control is an absolute necessity for any software development project. If you are not using one yet, start using one.
 
- * [GitHub](https://github.com/) - allows for unlimited public repositories, and unlimited private repositories with up to 3 collaborators.
+ * [GitHub](https://github.com/) - allows for unlimited public and private repositories with unlimited collaborators on the free tier.
  * [Bitbucket](https://bitbucket.org/) - allows for unlimited private repositories with up to 5 collaborators, for free.
  * [SourceForge](http://sourceforge.net/) - open source hosting only.
  * [GitLab](https://gitlab.com/) - allows for unlimited public and private repositories, unlimited CI Runners included, for free.
- * [Visual Studio Online](https://visualstudio.com) (http://www.visualstudio.com/what-is-visual-studio-online-vs) - allows for unlimited public repositories, must pay for private repository. Repositories can be git or TFVC. Additionally: Issue tracking, project planning (multiple Agile templates, such as SCRUM), integrated hosted builds, integration of all this into Microsoft Visual Studio. Windows only.
+ * [Azure DevOps](https://dev.azure.com) (formerly Visual Studio Online) - allows for unlimited public repositories and up to 5 users for free on private projects. Supports Git repositories, issue tracking, project planning (Scrum, Kanban), and integrated CI/CD pipelines via Azure Pipelines.
  * [Gitee](https://gitee.com) - allows for unlimited private repositiories up to 5G file storage
 
 **[⬆ Back to top](#table-of-contents)**
@@ -992,10 +992,14 @@ Once you have picked your build tool, set up a continuous integration environmen
 
 Continuous Integration (CI) tools automatically build the source code as changes are pushed to the repository. These can be hosted privately or with a CI host.
 
+ * [GitHub Actions](https://github.com/features/actions)
+   * the standard CI/CD for GitHub-hosted projects
+   * free for public repositories; generous free tier for private repositories
+   * has first-class support for .NET via `actions/setup-dotnet`
  * [Travis CI](http://travis-ci.org)
    * works well with C#
    * designed for use with GitHub
-   * free for public repositories on GitHub
+   * **Note:** free tier for open-source was discontinued in 2021; now requires a paid plan
  * [AppVeyor](http://www.appveyor.com/)
    * supports Windows, MSVC and MinGW
    * free for public repositories on GitHub
@@ -1009,21 +1013,21 @@ Continuous Integration (CI) tools automatically build the source code as changes
    * simple ad-hoc continuous integration that posts results to GitHub
    * supports Windows, OS X, and Linux
    * used by [ChaiScript](http://chaiscript.com/ChaiScript-BuildResults/full_dashboard.html)
- * [Visual Studio Online](https://visualstudio.com) (http://www.visualstudio.com/what-is-visual-studio-online-vs)
-   * Tightly integrated with the source repositories from Visual Studio Online
-   * Uses MSBuild (Visual Studio's build engine), which is available on Windows, OS X and Linux
-   * Provides hosted build agents and also allows for user-provided build agents
-   * Can be controlled and monitored from within Microsoft Visual Studio
-   * On-Premise installation via Microsoft Team Foundation Server
+ * [Azure Pipelines](https://azure.microsoft.com/en-us/products/devops/pipelines) (part of Azure DevOps, formerly Visual Studio Online)
+   * Tightly integrated with Azure DevOps and GitHub repositories
+   * Uses MSBuild / `dotnet` CLI, available on Windows, macOS and Linux
+   * Provides Microsoft-hosted build agents and also allows for self-hosted agents
+   * Can be monitored from within Visual Studio or the Azure DevOps web portal
+   * On-premise installation via Azure DevOps Server (formerly Team Foundation Server)
  * [GitLab](https://gitlab.com)
    * has free shared runners
    * has trivial processing of result of coverage analyze
 
 If you have an open source, publicly-hosted project on GitHub:
 
- * go enable Travis Ci and AppVeyor integration right now. We'll wait for you to come back. For a simple example of how to enable it for your C# application, see here: https://docs.travis-ci.com/user/languages/csharp/
- * enable one of the coverage tools listed below (Codecov or Coveralls)
- * enable [Coverity Scan](https://scan.coverity.com)
+ * Enable [GitHub Actions](https://github.com/features/actions) — it is the recommended starting point for new projects. See the [.NET workflow quickstart](https://docs.github.com/en/actions/use-cases-and-examples/building-and-testing/building-and-testing-net) for a ready-to-use template.
+ * Enable one of the coverage tools listed below (Codecov or Coveralls)
+ * Enable [Coverity Scan](https://scan.coverity.com)
   
 These tools are all free and relatively easy to set up. Once they are set up you are getting continuous building, testing, analysis and reporting of your project. For free.
 
