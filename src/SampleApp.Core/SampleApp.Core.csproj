@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- TargetFramework, Nullable, etc. are inherited from Directory.Build.props -->
+
+</Project>
